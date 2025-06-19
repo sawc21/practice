@@ -3,7 +3,7 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableSequence
 
-# Load your local model via Ollama
+# Load local model via Ollama
 llm = Ollama(model="mistral")
 
 # Load PDF

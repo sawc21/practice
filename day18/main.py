@@ -8,8 +8,8 @@ screen = t.Screen()
 screen.setup(1200, 1200)
 
 # Constants
-DOT_SIZE = 50
-DOT_SPACING = 100
+DOT_SIZE = 25
+DOT_SPACING = 50
 GRID_SIZE = 10
 START_POS = (-500, -500)
 
