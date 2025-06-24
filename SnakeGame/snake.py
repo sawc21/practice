@@ -16,13 +16,19 @@ class Snake:
 
 
     def create_snake(self):
-        for pos in starting_position:
-            snake = Turtle()
-            snake.color("white")
-            snake.shape("square")
-            snake.penup()
-            snake.goto(pos)
-            self.snake_list.append(snake)
+        for position in starting_position:
+            self.add_segment(position)
+
+    def add_segment(self,position):
+        snake = Turtle()
+        snake.color("white")
+        snake.shape("square")
+        snake.penup()
+        snake.goto(position)
+        self.snake_list.append(snake)
+
+    def extend(self):
+        self.add_segment(self.snake_list[-1].position())
 
     def move(self):
         for i in range(len(self.snake_list) - 1, 0, -1):
@@ -52,4 +58,17 @@ class Snake:
             self.head.setheading(LEFT)
 
 
+
+    def reset(self):
+        for segment in self.snake_list:
+            segment.goto(1000, 1000)
+        self.snake_list.clear()
+        self.create_snake()
+        self.head = self.snake_list[0]
+
+
+    def collision(self):
+        for segment in self.snake_list[1:]:
+            if segment == self.head:
+                return True
 

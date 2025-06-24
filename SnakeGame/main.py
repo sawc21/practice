@@ -1,7 +1,13 @@
-from turtle import Screen, Turtle
+from pkgutil import extend_path
+from turtle import Screen
+
+from score import Score
 from snake import Snake
 from food import Food
 import time
+import random
+
+
 
 
 screen = Screen()
@@ -12,7 +18,7 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
-
+score = Score()
 
 screen.listen()
 
@@ -29,12 +35,19 @@ while game_is_on:
         time.sleep(0.1)
 
         snake.move()
-        if snake.head.pos() == food.food.pos():
+        if snake.head.distance(food) <= 15:
                 food.refresh()
+                score.increase_score()
+                snake.extend()
 
-        if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+
+        if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280 or snake.collision():
 
             game_is_on = False
+            score.game_over()
+            name =  input("Enter Name:")
+
+
 
 
 screen.exitonclick()
