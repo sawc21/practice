@@ -12,8 +12,21 @@ documents = loader.load()
 
 # Prompt to extract triples
 prompt = PromptTemplate.from_template(
-    "Extract concise CTI triples from the following text:\n\n{text}\n\n"
-    "Use the format: (subject, relation, object). Return only the triples."
+    """
+    You are a cybersecurity analyst. Extract key CTI entities from the following text. Entities include:
+    - Threat actors, Malware, Tools, Techniques, Tactics, Campaigns
+    - Dates or time references
+    - Target industries, organizations, and countries
+    - Indicators of compromise (IOCs)
+    - Vulnerabilities (e.g., CVEs)
+
+    Return the results in JSON with keys:
+    ["threat_actors", "malware", "tools", "techniques", "tactics", "campaigns", "iocs", "dates", "vulnerabilities", "target_industries", "target_organizations", "target_countries"]
+
+    Text:
+    \"\"\"{text}\"\"\"
+    """
+
 )
 
 # Chain: prompt → model
