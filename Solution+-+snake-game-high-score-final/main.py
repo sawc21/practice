@@ -1,3 +1,14 @@
+###################################
+# Steps for improvment:
+# 1. Add a scoreboard to keep track of the player's score and let name be typed in.
+# 2. Add a pause feature to the game.
+#3 make it smoother
+###################################
+
+
+
+
+
 from turtle import Screen
 from snake import Snake
 from food import Food
@@ -34,17 +45,15 @@ while game_is_on:
 
     #Detect collision with wall.
     if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        scoreboard.reset()
         snake.reset()
+        scoreboard.reset()
 
     #Detect collision with tail.
     for segment in snake.segments:
         if segment == snake.head:
             pass
         elif snake.head.distance(segment) < 10:
-            game_is_on = False
             scoreboard.reset()
-            snake.reset()
 
 
 
