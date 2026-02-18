@@ -111,6 +111,9 @@ try:
         )
         answer_state = answer_state.strip().title()
         if not running or answer_state == "Exit":
+            incorrect_guesses = [state for state in states if state not in correct_guesses]
+            new_data = pandas.DataFrame(incorrect_guesses)
+            new_data.to_csv("states_not_guessed.csv")
             break
         if answer_state in states:
             correct_guess += 1
@@ -134,15 +137,13 @@ try:
 
 except (turtle.Terminator, tkinter.TclError):
     pass
-incorrect_guesses = []
-for incorrect_guess in states:
-    if incorrect_guess in correct_guesses:
-        continue
-    else:
-        incorrect_guesses.append(incorrect_guess)
 
-new_data = pandas.DataFrame(incorrect_guesses)
-new_data.to_csv("states_not_guessed.csv")
+
+
+
+
+
+
 
 
 
