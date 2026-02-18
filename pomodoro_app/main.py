@@ -17,20 +17,34 @@ LONG_BREAK_MIN = 20
 
 # ---------------------------- UI SETUP ------------------------------- #
 #fg is color to foreground
-text = "✔"
+def start_timer(n):
+    canvas.itemconfig(timer_text,text=n)
+    print(n)
+    if n> 0:
+        window.after(1000,start_timer, n - 1)
+    
 window = Tk()
 window.title("Pomodoro")
 window.config(padx=100,pady=50,bg=PINK)
 
+
 canvas= Canvas(width=200,height=224,bg=PINK,highlightthickness=0)
 tomato_img= PhotoImage(file="tomato.png")
+
 canvas.create_image(100,112,image=tomato_img)
-canvas.create_text(100,130,text="00:00",fill="White",font=(FONT_NAME,35,"bold"))
-canvas.grid(column=3,row=3)
-
-timer= Label(text="Timer", font=(FONT_NAME,35,""),bg= PINK, fg=GREEN , highlightthickness=0)
-timer.grid(column=  3,row=1)
+timer_text=canvas.create_text(100,130,text='',fill="White",font=(FONT_NAME,35,"bold"))
+canvas.grid(column=1,row=1)
+timer = start_timer(30)
 
 
+# timer= Label(text="Timer", font=(FONT_NAME,35,"bold"),bg= PINK, fg=GREEN , highlightthickness=0)
+# timer.grid(column=  1,row=0)
 
+start= Button(text="Start", command=start_timer)
+start.grid(column=0,row=3)
+Reset= Button(text="Reset", command='')
+Reset.grid(column=2,row=3)
+
+text = Label(text="✔",fg=GREEN,bg=PINK)
+text.grid(column=1,row=4)
 window.mainloop()
