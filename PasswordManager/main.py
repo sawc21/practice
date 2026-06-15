@@ -2,6 +2,7 @@ from tkinter import *
 import pandas
 from tkinter import messagebox
 import pyperclip
+import json
 
 
 final_password= ''
@@ -31,37 +32,49 @@ def generate_password():
     final_password = "".join(password)
     password_text.insert(0,final_password)
     pyperclip.copy(final_password)
-
+                
     
         
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
+    website = website_text.get()
+    email = email_text.get()
+    password = password_text.get()
+
     new_row = {
-        "Website": website_text.get(),
-        "Email": email_text.get(),
-        "Password": password_text.get(),
+       website: {
+        "Email": email,
+        "Password": password,
+    }
     }
     
     
     
-    if len(new_row["Email"]) == 0 or len(new_row["Password"]) == 0 or len(new_row["Website"]) == 0:
+    if len(email) == 0 or len(password) == 0 or len(website) == 0:
         messagebox.showinfo(title="error", message= "No input in either email,website, or password. \nPlease fill out all before clicking ok")
     else:
-        is_ok = messagebox.askokcancel(title=website_text.get(), message=f"Confirm these are the details entered \n Email: {new_row["Email"]} \n Password: {new_row["Password"]}\n Website: {new_row["Website"]} ")
-        if is_ok:
-            pandas.DataFrame([new_row]).to_csv(
-                "passwords.csv",
-                mode="a",
-                header=not pandas.io.common.file_exists("passwords.csv"),
-                index=False
-            )
-  
-            
+        try:
+            with open("data.json", "r") as data_file:
+                #  json.dump(new_row,data_file,indent=4)
+                data = json.load(data_file)
+
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_row, data_file, indent=4)
+              
+        else:
+            data.update(new_row)
+            with open("data.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
+               
+                
+        finally:
+            website_text.delete(0, END)
+            password_text.delete(0, END)
     
     
 
-    website_text.delete(0, END)
-    password_text.delete(0, END)
+    
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
